@@ -34,7 +34,7 @@ services:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingfederate:${PING_IDENTITY_DEVOPS_TAG}
     command: wait-for pingdirectory:389 -t 900 -- entrypoint.sh start-server
     environment:
-      - SERVER_PROFILE_URL=https://github.com/pingidentity/pingidentity-server-profiles.git
+      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
       - SERVER_PROFILE_PATH=baseline/pingfederate
       - VERBOSE=false
     env_file:
@@ -53,7 +53,7 @@ services:
   pingdirectory:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingdirectory:${PING_IDENTITY_DEVOPS_TAG}
     environment:
-      - SERVER_PROFILE_URL=https://github.com/pingidentity/pingidentity-server-profiles.git
+      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
       - SERVER_PROFILE_PATH=baseline/pingdirectory
     env_file:
       - ${HOME}/.pingidentity/devops
@@ -85,7 +85,7 @@ services:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingdelegator:${PING_IDENTITY_DEVOPS_TAG}
     environment:
       - PD_ENGINE_PUBLIC_PORT=1443
-      - SERVER_PROFILE_URL=https://github.com/pingidentity/pingidentity-server-profiles.git
+      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
       - SERVER_PROFILE_PATH=baseline/pingdelegator
     env_file:
       - ${HOME}/.pingidentity/devops

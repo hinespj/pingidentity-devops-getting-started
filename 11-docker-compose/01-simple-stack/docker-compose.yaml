@@ -34,8 +34,8 @@ services:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingfederate:${PING_IDENTITY_DEVOPS_TAG}
     command: wait-for pingdirectory:389 -t 900 -- entrypoint.sh start-server
     environment:
-      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
-      - SERVER_PROFILE_PATH=baseline/pingfederate
+     # - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
+     # - SERVER_PROFILE_PATH=baseline/pingfederate
       - VERBOSE=false
     env_file:
       # Configuration file created when setup.sh (Getting-started project root directory) is first run to source
@@ -47,14 +47,14 @@ services:
     networks:
       - pingnet
     volumes:
-      - pingfederate-out:/opt/out
-    #  - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingfederate:/opt/in
+      - ${HOME}/projects/devops/volumes/pingfederate:/opt/out
+      - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingfederate:/opt/in
 
   pingdirectory:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingdirectory:${PING_IDENTITY_DEVOPS_TAG}
     environment:
-      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
-      - SERVER_PROFILE_PATH=baseline/pingdirectory
+     # - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
+     # - SERVER_PROFILE_PATH=baseline/pingdirectory
     env_file:
       - ${HOME}/.pingidentity/devops
     ulimits:
@@ -71,8 +71,8 @@ services:
     networks:
       - pingnet
     volumes:
-      - pingdirectory-out:/opt/out
-    #  - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingdirectory:/opt/in
+      - ${HOME}/projects/devops/volumes/pingdirectory:/opt/out
+      - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingdirectory:/opt/in
 
   pingdataconsole:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingdataconsole:${PING_IDENTITY_DEVOPS_TAG}
@@ -80,23 +80,26 @@ services:
       - "8443:8443"
     networks:
       - pingnet
+    volumes:
+      - ${HOME}/projects/devops/volumes/pingdataconsole:/opt/out
+      - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingdataconsole:/opt/in
 
   pingdelegator:
     image: ${PING_IDENTITY_DEVOPS_REGISTRY}/pingdelegator:${PING_IDENTITY_DEVOPS_TAG}
     environment:
       - PD_ENGINE_PUBLIC_PORT=1443
-      - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
-      - SERVER_PROFILE_PATH=baseline/pingdelegator
+     # - SERVER_PROFILE_URL=https://github.com/hinespj/pingidentity-server-profiles.git
+     # - SERVER_PROFILE_PATH=baseline/pingdelegator
     env_file:
       - ${HOME}/.pingidentity/devops
     ports:
       - "6443:6443"
     networks:
       - pingnet
+    volumes:
+      - ${HOME}/projects/devops/volumes/pingdelegator:/opt/out
+      - ${HOME}/projects/devops/pingidentity-server-profiles/baseline/pingdelegator:/opt/in
 
 networks:
     pingnet:
 
-volumes:
-  pingfederate-out:
-  pingdirectory-out:
